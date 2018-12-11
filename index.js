@@ -29,9 +29,9 @@ app.use(passport.session());
 //need to put authroutes after passport.initialize() so passport is happy
 require('./routes/authRoutes')(app);
 
-app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
-});
+// app.get('/', (req, res) => {
+//   res.send({ hi: 'there' });
+// });
 
 if (process.env.NODE_ENV == 'production') {
   //try to serve up production assets such as main.js or main.css

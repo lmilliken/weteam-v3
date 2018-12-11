@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 
-class Landing extends Component {
+class Dashboard extends Component {
   render() {
     return (
       <div style={{ textAlign: 'center' }}>
-        <h1>We-Team</h1>
-        Find your community.
+        <h1>Dashboard</h1>
       </div>
     );
   }
 }
 
-export default Landing;
+export default Dashboard;

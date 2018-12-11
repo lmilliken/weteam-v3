@@ -5,10 +5,9 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Landing from './Landing';
-
-const Dashboard = () => {
-  return <h2>Dashboard</h2>;
-};
+import Login from './Login';
+import Dashboard from './Dashboard';
+import Test from './Test';
 
 const SurveyNew = () => {
   return <h2>SurveyNew</h2>;
@@ -26,8 +25,10 @@ class App extends Component {
           <div>
             <Header />
             <Route exact path="/" component={Landing} />
-            <Route exact path="/surveys" component={Dashboard} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route path="/surveys/new" component={SurveyNew} />
+            <Route path="/test" component={Test} />
           </div>
         </BrowserRouter>
       </div>
