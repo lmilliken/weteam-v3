@@ -93,8 +93,8 @@ class Login extends React.Component {
     const { classes } = this.props;
 
     return (
-      <main className={classes.main}>
-        <CssBaseline />
+      <something className={classes.main}>
+        {/* <CssBaseline /> */}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />
@@ -141,7 +141,7 @@ class Login extends React.Component {
           }}>
           Sign in with Google
         </Button>
-      </main>
+      </something>
     );
   }
 }
