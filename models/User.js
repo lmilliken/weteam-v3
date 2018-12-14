@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   providedId: String,
-  provider: String
+  provider: String,
+  credits: {
+    type: Number,
+    default: 0
+  }
 });
 
 //this creates a model class

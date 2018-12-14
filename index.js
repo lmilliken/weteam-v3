@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 const config = require('./config/config');
 
@@ -16,6 +17,7 @@ mongoose.connect(
 
 const app = express();
 
+app.use(bodyParser.json());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -29,6 +31,7 @@ app.use(passport.session());
 //need to put authroutes after passport.initialize() so passport is happy
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+
 app.get('/', (req, res) => {
   res.send({ hi: 'there' });
 });
