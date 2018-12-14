@@ -28,7 +28,7 @@ app.use(passport.session());
 
 //need to put authroutes after passport.initialize() so passport is happy
 require('./routes/authRoutes')(app);
-
+require('./routes/billingRoutes')(app);
 app.get('/', (req, res) => {
   res.send({ hi: 'there' });
 });
