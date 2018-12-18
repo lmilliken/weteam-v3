@@ -178,8 +178,8 @@ class Header extends React.Component {
               <Typography variant="h6" color="inherit" noWrap>
                 We-Team
               </Typography>
-              {this.renderContent()}
             </Button>
+            {this.renderContent()}
             {auth && (
               <div>
                 <IconButton

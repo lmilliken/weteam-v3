@@ -17,6 +17,7 @@ const SurveyNew = () => {
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchExpertAreas();
   }
 
   render() {

@@ -8,4 +8,4 @@ const expertAreaSchema = new Schema({
 });
 
 //this creates a model class
-module.exports = mongoose.model('ExpertArea', expertAreaSchema);
+module.exports = mongoose.model('expertareas', expertAreaSchema);
