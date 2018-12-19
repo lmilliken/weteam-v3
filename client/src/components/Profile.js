@@ -11,6 +11,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
+import EditExpertAreas from './profile/EditExpertAreas';
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1
@@ -26,13 +28,14 @@ const styles = (theme) => ({
     height: 60
   },
   modal: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
+    // position: 'absolute',
+    width: 'auto',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
-    top: 'auto',
-    left: 'auto'
+    margin: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
   }
 });
 
@@ -44,7 +47,7 @@ class Profile extends React.Component {
       editProfileDesc: false
     };
     this.editExpertise = this.editExpertise.bind(this);
-    this.handleClose = this.editExpertise.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleClose() {
@@ -89,14 +92,7 @@ class Profile extends React.Component {
                 open={this.state.editExpertise}
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
-                  <Typography variant="h6" id="modal-title">
-                    Text in a modal
-                  </Typography>
-                  <Typography variant="subtitle1" id="simple-modal-description">
-                    Duis mollis, est non commodo luctus, nisi erat porttitor
-                    ligula.
-                  </Typography>
-                  <Button onClick={this.handleClose}>Close</Button>
+                  <EditExpertAreas close={this.handleClose} />
                 </div>
               </Modal>
             </Paper>
