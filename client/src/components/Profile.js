@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
-import EditExpertAreas from './profile/EditExpertAreas';
+import EditExpertAreasForm from './profile/EditExpertAreasForm';
 
 const styles = (theme) => ({
   root: {
@@ -92,7 +92,7 @@ class Profile extends React.Component {
                 open={this.state.editExpertise}
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
-                  <EditExpertAreas close={this.handleClose} />
+                  <EditExpertAreasForm close={this.handleClose} />
                 </div>
               </Modal>
             </Paper>
