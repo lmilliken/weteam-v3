@@ -7,6 +7,7 @@ import Header from './Header';
 import Landing from './Landing';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import Profile from './Profile';
 import Test from './Test';
 
 const SurveyNew = () => {
@@ -16,6 +17,7 @@ const SurveyNew = () => {
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchExpertAreas();
   }
 
   render() {
@@ -27,6 +29,8 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/surveys/new" component={SurveyNew} />
             <Route path="/surveys/new" component={SurveyNew} />
             <Route path="/test" component={Test} />
           </div>

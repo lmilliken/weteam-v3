@@ -7,6 +7,7 @@ const config = require('./config/config');
 
 //this just executes the file, no export needed
 require('./models/User');
+require('./models/ExpertArea');
 require('./services/passport-setup');
 
 mongoose.connect(
@@ -27,8 +28,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //need to put authroutes after passport.initialize() so passport is happy
-require('./routes/authRoutes')(app);
 
+require('./routes/authRoutes')(app);
+require('./routes/mainRoutes')(app);
 // app.get('/', (req, res) => {
 //   res.send({ hi: 'there' });
 // });

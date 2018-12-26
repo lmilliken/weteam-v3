@@ -26,6 +26,7 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log(profile.photos);
       const existingUser = await User.findOne({
         providedId: profile.id,
         provider: 'Google'
@@ -37,7 +38,10 @@ passport.use(
       } else {
         const createdUser = await new User({
           providedId: profile.id,
-          provider: 'Google'
+          provider: 'Google',
+          profileImage: profile._json.image.url,
+          nameFirst: profile.name.givenName,
+          nameLast: profile.name.familyName
         }).save();
 
         done(null, createdUser);
