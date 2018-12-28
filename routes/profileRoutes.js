@@ -14,7 +14,7 @@ router.post('/update', (req, res) => {
   console.log('body: ', req.body);
   console.log('user: ', req.user);
 
-  User.findByIdAndUpdate(req.user._id, req.body).then((ret) =>
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true }).then((ret) =>
     console.log({ ret })
   );
   res.send('response from profileRoutes');

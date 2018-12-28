@@ -22,67 +22,38 @@ const styles = (theme) => ({
   }
 });
 
-// const renderCheckbox = ({ input, label }) => (
-//   <FormControlLabel
-//     control={
-//       <Checkbox
-//         name="expertAreas2"
-//         value={label}
-//         onChange={(event) => {
-//           if (event.target.checked) {
-//             console.log('checked');
-//           } else {
-//             console.log('unchecked');
-//           }
-//         }}
-//       />
-//     }
-//     label={label}
-//   />
-// );
-//props.input = {input}, we are getting the props from redux form <Field>
-const renderCheckboxes = ({ input, areas }) => {
-  // console.log('checkbox input: ', input);
+const renderCheckboxes = ({ input, areas, auth }) => {
+  console.log('checkbox input: ', input);
+  console.log('checkbox areas: ', areas);
+  console.log('checkbox auth: ', auth);
+  // input.value = auth.expertAreas;
+
   return (
     <FormGroup>
       {areas.map((area, index) => (
-        // <input
-        //   type="checkbox"
-        //   name={area}
-        //   value={area}
-        //   onChange={(event) => {
-        //     const newValue = [...input.value];
-        //     if (event.target.checked) {
-        //       newValue.push(area);
-        //     } else {
-        //       newValue.splice(newValue.indexOf(area), 1);
-        //     }
-
-        //     return input.onChange(newValue);
-        //   }}
-        // />
         <FormControlLabel
-          key={area}
+          key={area._id}
           control={
             <Checkbox
               // {...input}
-              key={area}
-              label={area}
-              name={area}
-              value={area}
+              // key={area}
+              label={area.name}
+              name={area.name}
+              value={area._id}
+              checked={input.value.indexOf(area._id) !== -1}
               onChange={(event) => {
                 const newValue = [...input.value];
                 if (event.target.checked) {
-                  newValue.push(area);
+                  newValue.push(area._id);
                 } else {
-                  newValue.splice(newValue.indexOf(area), 1);
+                  newValue.splice(newValue.indexOf(area._id), 1);
                 }
                 input.onBlur(newValue);
                 return input.onChange(newValue);
               }}
             />
           }
-          label={area}
+          label={area.name}
         />
       ))}
     </FormGroup>
@@ -103,6 +74,7 @@ class EditExpertAreasForm extends React.Component {
     const { updateProfileExpertAreas } = this.props; //this redux action was included in props when we wired it up w/ connect()
     const { expertAreas } = this.props.editExpertAreas.values;
     updateProfileExpertAreas({ expertAreas });
+    this.props.close();
   }
 
   handleClose() {
@@ -111,23 +83,7 @@ class EditExpertAreasForm extends React.Component {
 
   render() {
     // console.log('props: ', this.props);
-    const { classes, expertAreas } = this.props;
-
-    // const list = expertAreas.map((area) => (
-    //   <Field key={area} component={renderCheckbox} label={area} />
-
-    // <FormControlLabel
-    //   key={list}
-    //   control={
-    //     <Checkbox
-    //       key={list}
-    //       onChange={this.handleChange('gilad')}
-    //       value={area}
-    //     />
-    //   }
-    //   label={area}
-    // />
-    // ));
+    const { classes, expertAreas, auth } = this.props;
 
     return (
       <div className={classes.root}>
@@ -140,6 +96,7 @@ class EditExpertAreasForm extends React.Component {
             <Field
               name="expertAreas"
               areas={expertAreas}
+              initialValues={auth}
               component={renderCheckboxes}
             />
 
@@ -164,9 +121,10 @@ EditExpertAreasForm.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('form info: ', state.form.editExpertAreas);
+  // console.log('form info: ', state.auth);
   return {
     auth: state.auth,
+    initialValues: { expertAreas: state.auth.expertAreas },
     expertAreas: state.expertAreas,
     editExpertAreas: state.form.editExpertAreas
   };

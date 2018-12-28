@@ -1,4 +1,6 @@
 import React from 'react';
+
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -65,8 +67,21 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { classes, auth } = this.props;
+    const { classes, auth, expertAreas } = this.props;
 
+    const expertAreasWords = [];
+    if (expertAreas && auth.expertAreas) {
+      auth.expertAreas.map(function(id) {
+        // console.log({ id });
+        const object = _.find(expertAreas, { _id: id });
+        expertAreasWords.push(object.name);
+      });
+
+      // console.log({ auth });
+      // console.log({ expertAreas });
+      // expertAreas.map((area) => area);
+      // console.log({ expertAreasWords });
+    }
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
@@ -88,6 +103,7 @@ class Profile extends React.Component {
               <Typography variant="h6" color="inherit" noWrap>
                 Expert Areas
               </Typography>
+              <Typography>{expertAreasWords.join(', ').toString()}</Typography>
               <IconButton onClick={this.editExpertise}>
                 <Icon>edit</Icon>
               </IconButton>
@@ -116,6 +132,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = ({ auth, expertAreas }) => {
+  // console.log({ expertAreas });
   return { auth, expertAreas };
 };
 
