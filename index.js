@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 const config = require('./config/config');
 
@@ -24,6 +25,8 @@ app.use(
   })
 );
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -31,6 +34,13 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/mainRoutes')(app);
+
+const profileRoutes = require('./routes/profileRoutes');
+app.use('/api/profile', profileRoutes);
+
+// app.post('/api/profile/update', (req, res) => {
+//   res.send('a response from profileRoutes');
+// });
 // app.get('/', (req, res) => {
 //   res.send({ hi: 'there' });
 // });

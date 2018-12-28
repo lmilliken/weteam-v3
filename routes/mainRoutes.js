@@ -4,9 +4,7 @@ const ExpertArea = mongoose.model('expertareas');
 
 module.exports = (app) => {
   app.get('/api/expertareas', async (req, res) => {
-    const areas = await ExpertArea.find().then((results) =>
-      results.map((thisResult) => thisResult.name)
-    );
+    const areas = await ExpertArea.find();
     res.send(areas);
   });
 };

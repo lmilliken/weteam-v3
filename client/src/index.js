@@ -7,11 +7,11 @@ import reduxThunk from 'redux-thunk';
 import App from './components/App';
 import reducers from './reducers'; //automatcally gets index.js store
 
-import { MuiThemeProvider } from 'material-ui';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './components/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
-//
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <CssBaseline />

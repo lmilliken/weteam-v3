@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
@@ -48,20 +47,26 @@ class Profile extends React.Component {
     };
     this.editExpertise = this.editExpertise.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   handleClose() {
     console.log('closing: ', this.state);
-    this.setState({ editExpertise: false });
+    this.setState({ editExpertise: false, editProfileDesc: false });
   }
 
   editExpertise() {
     console.log('editing');
     this.setState({ editExpertise: true });
   }
+
+  handleSave(type, values) {
+    console.log('saving: ', { [type]: values });
+  }
+
   render() {
     const { classes, auth } = this.props;
-    console.log('props: ', this.props);
+
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>
@@ -92,7 +97,10 @@ class Profile extends React.Component {
                 open={this.state.editExpertise}
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
-                  <EditExpertAreasForm close={this.handleClose} />
+                  <EditExpertAreasForm
+                    close={this.handleClose}
+                    save={this.handleSave}
+                  />
                 </div>
               </Modal>
             </Paper>
