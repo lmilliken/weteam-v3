@@ -10,13 +10,16 @@ const router = require('express').Router();
 //   });
 // };
 
-router.post('/update', (req, res) => {
-  console.log('body: ', req.body);
-  console.log('user: ', req.user);
+router.post('/update', async (req, res) => {
+  // console.log('body: ', req.body);
+  // console.log('user: ', req.user);
 
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true }).then((ret) =>
-    console.log({ ret })
-  );
-  res.send('response from profileRoutes');
+  // User.findByIdAndUpdate(req.user._id, req.body, { new: true }).then((ret) =>
+  //   console.log({ ret })
+  // );
+  // res.send('response from profileRoutes');
+  req.user.expertAreas = req.body.expertAreas;
+  const updatedUser = await req.user.save();
+  res.send(updatedUser);
 });
 module.exports = router;
