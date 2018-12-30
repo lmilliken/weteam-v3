@@ -13,10 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 
 import EditExpertAreasForm from './profile/EditExpertAreasForm';
+import EditAboutForm from './profile/EditAboutForm';
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    margin: '2%'
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -24,7 +26,7 @@ const styles = (theme) => ({
     color: theme.palette.text.secondary
   },
   bigAvatar: {
-    margin: 10,
+    margin: 'auto',
     width: 60,
     height: 60
   },
@@ -45,21 +47,27 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       editExpertise: false,
-      editProfileDesc: false
+      editAbout: false
     };
     this.editExpertise = this.editExpertise.bind(this);
+    this.editAbout = this.editAbout.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
   handleClose() {
-    console.log('closing: ', this.state);
-    this.setState({ editExpertise: false, editProfileDesc: false });
+    // console.log('closing: ', this.state);
+    this.setState({ editExpertise: false, editAbout: false });
   }
 
   editExpertise() {
-    console.log('editing');
+    // console.log('editing');
     this.setState({ editExpertise: true });
+  }
+
+  editAbout() {
+    // console.log(this.state);
+    this.setState({ editAbout: true });
   }
 
   handleSave(type, values) {
@@ -102,11 +110,22 @@ class Profile extends React.Component {
             <Paper className={classes.paper}>
               <Typography variant="h6" color="inherit" noWrap>
                 Expert Areas
+                <IconButton onClick={this.editExpertise}>
+                  <Icon>edit</Icon>
+                </IconButton>
               </Typography>
               <Typography>{expertAreasWords.join(', ').toString()}</Typography>
-              <IconButton onClick={this.editExpertise}>
-                <Icon>edit</Icon>
-              </IconButton>
+
+              <Typography variant="h6" color="inherit" noWrap>
+                About
+                <IconButton onClick={this.editAbout}>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Typography>
+              <Typography>
+                {this.props.auth && this.props.auth.about}
+              </Typography>
+
               <Modal
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
@@ -114,6 +133,19 @@ class Profile extends React.Component {
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
                   <EditExpertAreasForm
+                    close={this.handleClose}
+                    save={this.handleSave}
+                  />
+                </div>
+              </Modal>
+
+              <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={this.state.editAbout}
+                onClose={this.handleClose}>
+                <div className={classes.modal}>
+                  <EditAboutForm
                     close={this.handleClose}
                     save={this.handleSave}
                   />

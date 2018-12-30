@@ -18,7 +18,13 @@ router.post('/update', async (req, res) => {
   //   console.log({ ret })
   // );
   // res.send('response from profileRoutes');
-  req.user.expertAreas = req.body.expertAreas;
+
+  //find which field they are trying to update from the request body:  { about: 'jk;' }
+  const field = Object.keys(req.body)[0];
+  // console.log({ field });
+
+  //update the request.user itself
+  req.user[field] = req.body[field];
   const updatedUser = await req.user.save();
   res.send(updatedUser);
 });
