@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,6 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -49,17 +52,22 @@ const styles = (theme) => ({
   }
 });
 
-// class Signin extends React.Component {
-//   state = {
-//     redirectToReferrer: false
-//   };
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    label={label}
+    floatingLabelText={label}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+  />
+);
 
-//   signin = () => {
-//     this.props.signin();
-//   };
-// }
-
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -100,36 +108,10 @@ class Login extends React.Component {
             <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Terms and Conditions
           </Typography>
-          <form className={classes.form}>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}>
-              Sign in
-            </Button>
-          </form>
-          <Typography>Or signin with</Typography>
+          <form className={classes.form} />
+          <Typography>Or register with</Typography>
           <Button
             variant="contained"
             color="secondary"
@@ -139,21 +121,7 @@ class Login extends React.Component {
             }}>
             Google
           </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = '/auth/google';
-            }}>
-            Facebook
-          </Button>
         </Paper>
-
-        <Typography component={Link} to="/register">
-          Don't have a login? Signup.
-        </Typography>
       </something>
     );
   }
@@ -163,8 +131,8 @@ class Login extends React.Component {
 //   window.location.href = '/auth/google';
 // }}>
 
-Login.propTypes = {
+Register.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(Register);

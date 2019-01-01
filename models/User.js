@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 // const {Schema} = mongoose
 
 const userSchema = new Schema({
+  active: Boolean,
+  activeFlags: {
+    verifiedEmailOrProvider: Boolean,
+    agreedToTerms: Date
+  },
   nameFirst: String,
   nameLast: String,
   providedId: String,

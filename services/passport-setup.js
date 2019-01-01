@@ -41,7 +41,8 @@ passport.use(
           provider: 'Google',
           profileImage: profile._json.image.url,
           nameFirst: profile.name.givenName,
-          nameLast: profile.name.familyName
+          nameLast: profile.name.familyName,
+          activeFlags: { verifiedEmailOrProvider: true }
         }).save();
 
         done(null, createdUser);
