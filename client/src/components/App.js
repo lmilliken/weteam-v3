@@ -46,6 +46,12 @@ class App extends Component {
   }
 }
 
+// const mapStateToProps = ({ auth }) => {
+//   return { auth };
+// };
+
+// export default withStyles(styles)(connect(mapStateToProps)
+
 export default connect(
   null,
   actions

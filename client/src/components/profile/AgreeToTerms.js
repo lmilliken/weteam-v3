@@ -101,7 +101,7 @@ class Register extends React.Component {
     const { classes } = this.props;
 
     return (
-      <something className={classes.main}>
+      <div className={classes.main}>
         {/* <CssBaseline /> */}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -122,7 +122,7 @@ class Register extends React.Component {
             Google
           </Button>
         </Paper>
-      </something>
+      </div>
     );
   }
 }
