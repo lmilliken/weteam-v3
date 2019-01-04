@@ -11,7 +11,12 @@ const userSchema = new Schema({
   },
   nameFirst: String,
   nameLast: String,
-  emailId: String,
+  email: String,
+  emailConfirmed: {
+    type: Boolean,
+    default: false
+  },
+  emailVerificationToken: String,
   password: String,
   providedId: String,
   provider: String,

@@ -83,7 +83,7 @@ EditAboutForm.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('map state to props: {state} : ', state);
+  //console.log('map state to props: {state} : ', state);
   return {
     auth: state.auth,
     initialValues: { about: state.auth.about }

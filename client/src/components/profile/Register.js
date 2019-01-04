@@ -3,6 +3,7 @@ import {} from '../../actions';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { register } from '../../actions';
 
 import { Field, reduxForm } from 'redux-form';
 
@@ -58,10 +59,12 @@ const styles = (theme) => ({
 const renderTextField = ({
   input,
   label,
+  type,
   meta: { touched, error },
   ...custom
 }) => (
   <TextField
+    type={type}
     label={label}
     floatingLabelText={label}
     errorText={touched && error}
@@ -77,9 +80,11 @@ class Register extends React.Component {
     this.register = this.register.bind(this);
   }
 
-  register = (event) => {
+  register = (values) => {
     // event.preventDefault();
-    console.log('values: ', event);
+    const { register } = this.props;
+    console.log('values: ', values);
+    register(values);
   };
 
   render() {
@@ -105,7 +110,18 @@ class Register extends React.Component {
               component={renderTextField}
               label="First Name"
             />
-
+            <Field
+              name="email"
+              component={renderTextField}
+              label="Email"
+              type="email"
+            />
+            <Field
+              name="password"
+              component={renderTextField}
+              label="Password"
+              type="password"
+            />
             <Button
               type="submit"
               fullWidth
@@ -147,7 +163,10 @@ Register.propTypes = {
 };
 
 export default withStyles(styles)(
-  connect(mapStateToProps)(
+  connect(
+    mapStateToProps,
+    { register }
+  )(
     reduxForm({
       form: 'registerForm'
       // destroyOnUnmount: false

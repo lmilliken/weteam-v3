@@ -1,8 +1,11 @@
 import axios from 'axios';
-import { FETCH_USER } from './types';
+import { FETCH_USER, REGISTER_USER } from './types';
 
 export const register = (values) => async (dispatch) => {
   console.log('register action called', values);
+  const response = await axios.post('/api/register', values);
+  console.log({ response });
+  dispatch({ type: REGISTER_USER, payload: response.data });
 };
 
 export const updateProfile = (values) => async (dispatch) => {

@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+const LocalStrategy = require('passport-local');
 
 //do it this way to prevent mongoose from importing several models if you are running several other files
 const mongoose = require('mongoose');
@@ -16,6 +17,9 @@ passport.deserializeUser((userID, done) => {
     done(null, user);
   });
 });
+
+//don't start on this until you get user set up in db
+// passport.use(new LocalStrategy){return null}
 
 passport.use(
   new GoogleStrategy(
