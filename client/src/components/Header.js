@@ -76,7 +76,9 @@ class Header extends React.Component {
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
-    //console.log('Header: auth prop: ', this.props.auth);
+    // console.log('Header: auth prop: ', this.props.auth);
+    // console.log('Header rendering...');
+    // console.log('Header props: ', this.props);
     // logout = () => {
     //   return (window.location.href = '/api/logout');
     // };

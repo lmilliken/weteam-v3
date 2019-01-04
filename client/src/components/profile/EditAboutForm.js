@@ -8,9 +8,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { TextField } from '@material-ui/core';
 import { updateProfile } from '../../actions';
+import { TextField } from '@material-ui/core';
 
 const styles = (theme) => ({
   root: {
@@ -26,7 +25,7 @@ const styles = (theme) => ({
 });
 
 const renderTextInput = ({ input }) => {
-  // console.log('checkbox input: ', input);
+  //  console.log('checkbox input: ', input);
 
   return <TextField rows="4" fullWidth {...input} />;
 };
@@ -39,23 +38,24 @@ class EditAboutForm extends React.Component {
     // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSave(e) {
-    e.preventDefault();
-    // console.log('props: ', this.props);
-    const { updateProfile } = this.props;
-    const about = this.props.editAbout; //this is from mapStateToProps
-    updateProfile({ about }); //this redux action was included in props when we wired it up w/ connect()
+  handleSave(values) {
+    const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
     // console.log({ about });
+    updateProfile(values);
     this.props.close();
   }
 
   render() {
     // console.log('props: ', this.props);
-    const { classes, about } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
-        <form onSubmit={this.handleSave} className={classes.container}>
+        <form
+          onSubmit={this.props.handleSubmit((values) =>
+            this.handleSave(values)
+          )}
+          className={classes.container}>
           <FormControl component="fieldset" className={classes.formControl}>
             <IconButton onClick={this.props.close}>
               <Icon>close</Icon>
@@ -83,23 +83,19 @@ EditAboutForm.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('map state to props: {state} : ', state);
+  console.log('map state to props: {state} : ', state);
   return {
     auth: state.auth,
-    initialValues: { about: state.auth.about },
-    editAbout:
-      state.form.editProfileForm && state.form.editProfileForm.values.about
+    initialValues: { about: state.auth.about }
   };
 };
-
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    actions
+    { updateProfile }
   )(
     reduxForm({
       form: 'editProfileForm'
-      // destroyOnUnmount: false
     })(EditAboutForm)
   )
 );

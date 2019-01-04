@@ -11,6 +11,8 @@ const userSchema = new Schema({
   },
   nameFirst: String,
   nameLast: String,
+  emailId: String,
+  password: String,
   providedId: String,
   provider: String,
   profileImage: String,

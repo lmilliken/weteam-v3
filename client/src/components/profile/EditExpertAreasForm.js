@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { updateProfile } from '../../actions';
 import { reduxForm, Field } from 'redux-form';
 
 import PropTypes from 'prop-types';
@@ -66,22 +66,26 @@ class EditExpertAreasForm extends React.Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  handleSave(e) {
-    e.preventDefault();
-    // console.log('props: ', this.props);
+  handleSave(values) {
+    // console.log({ values });
+    // e.preventDefault();
+    // // console.log('props: ', this.props);
     const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
-    const expertAreas = this.props.editExpertAreas;
-    updateProfile({ expertAreas });
+    // const expertAreas = this.props.editExpertAreas;
+    updateProfile(values);
     this.props.close();
   }
 
   render() {
     // console.log('props: ', this.props);
-    const { classes, expertAreas, auth } = this.props;
+    const { classes, expertAreas, handleSubmit } = this.props;
 
     return (
       <div className={classes.root}>
-        <form onSubmit={this.handleSave}>
+        <form
+          onSubmit={handleSubmit((values) => {
+            this.handleSave(values);
+          })}>
           <FormControl component="fieldset" className={classes.formControl}>
             <IconButton onClick={this.props.close}>
               <Icon>close</Icon>
@@ -116,23 +120,18 @@ EditExpertAreasForm.propTypes = {
 const mapStateToProps = (state) => {
   // console.log('form info: ', state.auth);
   return {
-    auth: state.auth,
     initialValues: { expertAreas: state.auth.expertAreas },
-    expertAreas: state.expertAreas,
-    editExpertAreas:
-      state.form.editProfileForm &&
-      state.form.editProfileForm.values.expertAreas
+    expertAreas: state.expertAreas
   };
 };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    actions
+    { updateProfile }
   )(
     reduxForm({
       form: 'editProfileForm'
-      // destroyOnUnmount: false
     })(EditExpertAreasForm)
   )
 );

@@ -1,12 +1,15 @@
+import {} from '../../actions';
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import { Field, reduxForm } from 'redux-form';
 
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
+// import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
@@ -71,30 +74,12 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.signin = this.signin.bind(this);
-    this.test = this.test.bind(this);
+    this.register = this.register.bind(this);
   }
 
-  signin = (e) => {
-    e.preventDefault();
-    console.log('sign in clicked');
-    axios
-      .get(`http://localhost:5000/auth/google`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  test = (e) => {
-    e.preventDefault();
-    console.log('test clicked');
-    axios
-      .get(`/test`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
+  register = (event) => {
+    // event.preventDefault();
+    console.log('values: ', event);
   };
 
   render() {
@@ -110,38 +95,17 @@ class Register extends React.Component {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
-          <form className={classes.form}>
+          <form
+            className={classes.form}
+            onSubmit={this.props.handleSubmit((values) =>
+              this.register(values)
+            )}>
             <Field
               name="firstName"
               component={renderTextField}
               label="First Name"
             />
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="lName">Last Name</InputLabel>
-              <Input id="lName" name="lName" autoComplete="lName" autoFocus />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="password">Confirm Password</InputLabel>
-              <Input
-                name="passwordConfirm"
-                type="passwordConfirm"
-                id="passwordConfirm"
-                autoComplete="current-password"
-              />
-            </FormControl>
+
             <Button
               type="submit"
               fullWidth
@@ -171,12 +135,19 @@ class Register extends React.Component {
 //   window.location.href = '/auth/google';
 // }}>
 
+const mapStateToProps = (state) => {
+  // console.log('map state to props: {state} : ', state);
+  return {
+    registerForm: state.form.registerForm
+  };
+};
+
 Register.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(
-  connect()(
+  connect(mapStateToProps)(
     reduxForm({
       form: 'registerForm'
       // destroyOnUnmount: false

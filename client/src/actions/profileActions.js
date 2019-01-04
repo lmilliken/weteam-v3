@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { FETCH_USER } from './types';
 
+export const register = (values) => async (dispatch) => {
+  console.log('register action called', values);
+};
+
 export const updateProfile = (values) => async (dispatch) => {
   // console.log('update action called', values);
   const response = await axios.post('/api/profile/update', values);
