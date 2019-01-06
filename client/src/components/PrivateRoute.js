@@ -5,12 +5,32 @@ import Login from './Login';
 import Profile from './Profile';
 import Dashboard from './Dashboard';
 
-const PrivateRoute = ({ component: Component, auth2, ...rest }) => {
-  // console.log('PrivateRoute auth: ', auth2);
+const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+  console.log('PrivateRoute auth: ', auth);
   return (
     <Route
       {...rest}
-      render={(props) => (auth2 ? <Component {...props} /> : <Login />)}
+      render={(props) => {
+        switch (auth) {
+          case null:
+            return <div />;
+          case false:
+            return <Redirect to="/login" />;
+          default:
+            switch (auth.active) {
+              case null:
+                return <div />;
+              case false:
+                if (!auth.activeFlags.agreedToTerms) {
+                  return <Redirect to="/terms" />;
+                }
+                return <Redirect to="/" />;
+              default:
+                console.log('private route good');
+                return <Component {...props} />;
+            }
+        }
+      }}
     />
   );
 };
@@ -85,9 +105,9 @@ const PrivateRoute = ({ component: Component, auth2, ...rest }) => {
 //grabbing state.auth and assigning it as a prop, we get state from connect()
 //debugger;
 const mapStateToProps = (state) => {
-  // console.log('map state to props: {state} : ', state);
+  //  console.log('map state to props: {state} : ', state);
   return {
-    auth2: state.auth
+    auth: state.auth
   };
 };
 export default connect(

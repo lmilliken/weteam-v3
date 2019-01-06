@@ -71,31 +71,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.signin = this.signin.bind(this);
-    this.test = this.test.bind(this);
   }
-
-  signin = (e) => {
-    e.preventDefault();
-    console.log('sign in clicked');
-    axios
-      .get(`http://localhost:5000/auth/google`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  test = (e) => {
-    e.preventDefault();
-    console.log('test clicked');
-    axios
-      .get(`/test`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
-  };
 
   render() {
     const { classes } = this.props;
@@ -111,16 +87,7 @@ class Register extends React.Component {
             Terms and Conditions
           </Typography>
           <form className={classes.form} />
-          <Typography>Or register with</Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = '/auth/google';
-            }}>
-            Google
-          </Button>
+          <Typography>I agree to terms</Typography>
         </Paper>
       </div>
     );

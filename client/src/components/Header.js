@@ -137,6 +137,7 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired
 };
 const mapStateToProps = ({ auth }) => {
+  // console.log('hearder auth: ', auth);
   return { auth };
 };
 

@@ -4,18 +4,21 @@ const Schema = mongoose.Schema;
 // const {Schema} = mongoose
 
 const userSchema = new Schema({
-  active: Boolean,
+  active: {
+    type: Boolean,
+    default: false
+  },
   activeFlags: {
     verifiedEmailOrProvider: Boolean,
-    agreedToTerms: Date
+    agreedToTerms: Date,
+    emailConfirmed: {
+      type: Boolean,
+      default: false
+    }
   },
   nameFirst: String,
   nameLast: String,
   email: String,
-  emailConfirmed: {
-    type: Boolean,
-    default: false
-  },
   emailVerificationToken: String,
   password: String,
   providedId: String,
