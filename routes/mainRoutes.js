@@ -2,8 +2,8 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const ExpertArea = mongoose.model('expertareas');
-const User = mongoose.model('users');
-
+//const User = mongoose.model('users');
+const User = require('./../models/User');
 const Mailer = require('../services/Mailer');
 const emailVerifyTemplate = require('../services/emailTemplates/emailVerifyTemplate');
 
@@ -40,6 +40,17 @@ module.exports = (app) => {
     } else {
       console.log('new user');
     }
+  });
+
+  app.post('/api/agreetoterms', async (req, res) => {
+    console.log(req.user);
+    req.user.activeFlags.agreedToTerms = new Date();
+    const updatedUser = await req.user.save();
+    console.log({ updatedUser });
+    //await updatedUser.updateActiveStatus();
+    console.log({ updatedUser });
+    res.send(updatedUser);
+    //res.send('/agreed to terms called');
   });
 
   app.post('/api/emailverification/:emailToken', async (req, res) => {

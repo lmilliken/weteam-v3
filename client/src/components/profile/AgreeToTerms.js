@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
@@ -52,29 +52,27 @@ const styles = (theme) => ({
   }
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    label={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
-
-class Register extends React.Component {
+class AgreeToTerms extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { redirectToReferrer: false };
+    this.agreeToTerms = this.agreeToTerms.bind(this);
+  }
+
+  agreeToTerms() {
+    console.log('button clicked');
+    axios.post('/api/agreetoterms').then((res) => {
+      console.log(res);
+      this.setState({ redirectToReferrer: true });
+    });
   }
 
   render() {
+    let { from } = this.props.location.state || { from: { pathname: '/' } };
+    let { redirectToReferrer } = this.state;
     const { classes } = this.props;
+
+    if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
       <div className={classes.main}>
@@ -87,7 +85,16 @@ class Register extends React.Component {
             Terms and Conditions
           </Typography>
           <form className={classes.form} />
-          <Typography>I agree to terms</Typography>
+          <Typography component="h5" variant="h5">
+            Terms and Conditions
+          </Typography>
+          <Button
+            onClick={this.agreeToTerms}
+            variant="contained"
+            color="primary"
+            type="submit">
+            I agree
+          </Button>
         </Paper>
       </div>
     );
@@ -98,8 +105,8 @@ class Register extends React.Component {
 //   window.location.href = '/auth/google';
 // }}>
 
-Register.propTypes = {
+AgreeToTerms.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Register);
+export default withStyles(styles)(AgreeToTerms);

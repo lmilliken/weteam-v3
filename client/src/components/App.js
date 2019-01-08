@@ -41,7 +41,6 @@ class App extends Component {
             />
             <Route exact path="/terms" component={AgreeToTerms} />
             <PrivateRoute exact path="/profile" component={Profile} />
-            <Route exact path="/terms" component={AgreeToTerms} />
             <Route path="/surveys/new" component={SurveyNew} />
           </div>
         </BrowserRouter>

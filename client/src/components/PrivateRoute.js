@@ -22,7 +22,14 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
                 return <div />;
               case false:
                 if (!auth.activeFlags.agreedToTerms) {
-                  return <Redirect to="/terms" />;
+                  return (
+                    <Redirect
+                      to={{
+                        pathname: '/terms',
+                        state: { from: props.location }
+                      }}
+                    />
+                  );
                 }
                 return <Redirect to="/" />;
               default:
