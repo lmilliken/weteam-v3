@@ -1,6 +1,8 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import { agreeToTerms } from '../../actions';
 import { Field, reduxForm } from 'redux-form';
 
 import PropTypes from 'prop-types';
@@ -59,12 +61,15 @@ class AgreeToTerms extends React.Component {
     this.agreeToTerms = this.agreeToTerms.bind(this);
   }
 
-  agreeToTerms() {
-    console.log('button clicked');
-    axios.post('/api/agreetoterms').then((res) => {
-      console.log(res);
-      this.setState({ redirectToReferrer: true });
-    });
+  async agreeToTerms() {
+    console.log('button clicked: ', this.props);
+    const { agreeToTerms } = this.props;
+    await agreeToTerms();
+    this.setState({ redirectToReferrer: true });
+    // axios.post('/api/agreetoterms').then((res) => {
+    //   console.log(res);
+    //   this.setState({ redirectToReferrer: true });
+    // });
   }
 
   render() {
@@ -116,4 +121,9 @@ AgreeToTerms.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AgreeToTerms);
+export default withStyles(styles)(
+  connect(
+    null,
+    { agreeToTerms }
+  )(AgreeToTerms)
+);

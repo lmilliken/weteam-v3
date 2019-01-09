@@ -6,7 +6,7 @@ import Profile from './Profile';
 import Dashboard from './Dashboard';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  //console.log('PrivateRoute auth: ', auth);
+  console.log('PrivateRoute auth: ', auth);
   return (
     <Route
       {...rest}
@@ -18,6 +18,9 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
             return <Redirect to="/login" />;
           default:
             switch (auth.active) {
+              case true:
+                console.log('active: true');
+                return <Component {...props} />;
               case null:
                 return <div />;
               case false:

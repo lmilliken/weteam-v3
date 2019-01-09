@@ -14,3 +14,10 @@ export const updateProfile = (values) => async (dispatch) => {
   // console.log({ response });
   dispatch({ type: FETCH_USER, payload: response.data });
 };
+
+export const agreeToTerms = () => async (dispatch) => {
+  // console.log('update action called', values);
+  const response = await axios.post('/api/agreetoterms');
+  console.log({ response });
+  dispatch({ type: FETCH_USER, payload: response.data });
+};
