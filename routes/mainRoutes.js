@@ -47,7 +47,7 @@ module.exports = (app) => {
     req.user.activeFlags.agreedToTerms = new Date();
     const updatedUser = await req.user.save();
     console.log({ updatedUser });
-    //await updatedUser.updateActiveStatus();
+    await updatedUser.updateActiveStatus();
     console.log({ updatedUser });
     res.send(updatedUser);
     //res.send('/agreed to terms called');

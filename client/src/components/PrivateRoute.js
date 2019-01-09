@@ -6,7 +6,7 @@ import Profile from './Profile';
 import Dashboard from './Dashboard';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  console.log('PrivateRoute auth: ', auth);
+  //console.log('PrivateRoute auth: ', auth);
   return (
     <Route
       {...rest}
@@ -22,6 +22,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
                 return <div />;
               case false:
                 if (!auth.activeFlags.agreedToTerms) {
+                  console.log('props in render: ', props);
                   return (
                     <Redirect
                       to={{
@@ -112,7 +113,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
 //grabbing state.auth and assigning it as a prop, we get state from connect()
 //debugger;
 const mapStateToProps = (state) => {
-  //  console.log('map state to props: {state} : ', state);
+  console.log('map state to props: {state} : ', state);
   return {
     auth: state.auth
   };

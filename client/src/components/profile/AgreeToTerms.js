@@ -68,11 +68,18 @@ class AgreeToTerms extends React.Component {
   }
 
   render() {
+    console.log('state: ', this.state);
+    console.log('props in Terms: ', this.props);
+
     let { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    console.log({ from });
     let { redirectToReferrer } = this.state;
     const { classes } = this.props;
 
-    if (redirectToReferrer) return <Redirect to={from} />;
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <div className={classes.main}>

@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
 //need to do function() so that you get binding to this
 UserSchema.methods.updateActiveStatus = async function() {
   const user = this;
-  console.log('user in User.js: ', user);
+  // console.log('user in User.js: ', user);
   if (
     user.activeFlags.agreedToTerms &&
     (user.activeFlags.emailConfirmed ||
