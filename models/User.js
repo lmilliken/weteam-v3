@@ -9,12 +9,11 @@ const UserSchema = new mongoose.Schema({
     default: false
   },
   activeFlags: {
-    verifiedEmailOrProvider: Boolean,
-    agreedToTerms: Date,
-    emailConfirmed: {
+    verifiedEmailOrProvider: {
       type: Boolean,
       default: false
-    }
+    },
+    agreedToTerms: Date
   },
   nameFirst: String,
   nameLast: String,
@@ -30,13 +29,10 @@ const UserSchema = new mongoose.Schema({
 
 //need to do function() so that you get binding to this
 UserSchema.methods.updateActiveStatus = async function() {
-  const user = this;
+  // const user = this;
+  const { agreedToTerms, verifiedEmailOrProvider } = this.activeFlags;
   // console.log('user in User.js: ', user);
-  if (
-    user.activeFlags.agreedToTerms &&
-    (user.activeFlags.emailConfirmed ||
-      user.activeFlags.verifiedEmailOrProvider)
-  ) {
+  if (agreedToTerms && verifiedEmailOrProvider) {
     user.active = true;
   }
 

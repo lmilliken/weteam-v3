@@ -11,7 +11,7 @@ module.exports = (emailToken) => {
       <div>
         <a href="${
           config.redirectDomain
-        }/api/emailverification/${emailToken}/yes"><button>Activate</button></a>
+        }/api/emailverification/${emailToken}"><button>Activate</button></a>
       </div>
     </div>
   </body>

@@ -53,16 +53,29 @@ module.exports = (app) => {
     //res.send('/agreed to terms called');
   });
 
-  app.post('/api/emailverification/:emailToken', async (req, res) => {
+  app.get('/api/emailverification/:emailToken', async (req, res) => {
     console.log('email token: ', req.params.emailToken);
-    res.send('finished');
-    // user = await User.find({ email: req.body.email });
 
-    // if (user.length) {
-    //   console.log('user found: ', user);
-    // } else {
-    //   console.log('new user');
-    // }
+    user = await User.findOneAndUpdate(
+      { emailVerificationToken: req.params.emailToken },
+      {
+        $set: {
+          'activeFlags.verifiedEmailOrProvider': true,
+          emailVerificationToken: ''
+        }
+      },
+      { new: true }
+    );
+
+    if (user) {
+      console.log('user found: ', user);
+      await user.updateActiveStatus();
+    } else {
+      console.log('user not found');
+      res.send('user not found');
+    }
+
+    res.send('finished');
   });
 
   app.get('/api/expertareas', async (req, res) => {
