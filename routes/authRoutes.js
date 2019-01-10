@@ -1,6 +1,15 @@
 const passport = require('passport');
 
 module.exports = (app) => {
+  app.post(
+    '/auth/login',
+    // passport.authenticate('local', { failureRedirection: '/login' }),
+    (req, res) => {
+      console.log('/auth/login called: ', req.body);
+      res.send('/auth/login called');
+    }
+  );
+
   app.get(
     '/auth/google',
     passport.authenticate('google', {

@@ -19,8 +19,28 @@ passport.deserializeUser((userID, done) => {
 });
 
 //don't start on this until you get user set up in db
-// passport.use(new LocalStrategy){return null}
-
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email'
+    },
+    function(email, password, done) {
+      User.findOne({ email: email }, function(err, user) {
+        console.log('user in password local: ', user);
+        if (err) {
+          return done(err);
+        }
+        if (!user) {
+          return done(null, false);
+        }
+        if (!user.verifyPassword(password)) {
+          return done(null, false);
+        }
+        return done(null, user);
+      });
+    }
+  )
+);
 passport.use(
   new GoogleStrategy(
     {

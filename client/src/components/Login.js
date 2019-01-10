@@ -60,33 +60,29 @@ const styles = (theme) => ({
 // }
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.signin = this.signin.bind(this);
-    this.test = this.test.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  // }
 
+  state = { email: '', password: '', error: '' };
   signin = (e) => {
     e.preventDefault();
-    console.log('sign in clicked');
+    console.log('sign in clicked', this.state);
     axios
-      .get(`http://localhost:5000/auth/google`)
+      .post('/auth/login')
       .then((res) => {
         console.log({ res });
       })
       .catch((err) => console.log(err));
   };
 
-  test = (e) => {
-    e.preventDefault();
-    console.log('test clicked');
-    axios
-      .get(`/test`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
+  handleEmail = (e) => {
+    this.setState({ email: e.target.value });
+  };
+
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value });
   };
 
   render() {
@@ -102,10 +98,17 @@ class Login extends React.Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.signin}>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={this.state.email}
+                onChange={this.handleEmail}
+              />
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
@@ -114,6 +117,8 @@ class Login extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handlePassword}
               />
             </FormControl>
             <FormControlLabel
