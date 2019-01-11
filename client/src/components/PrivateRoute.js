@@ -6,7 +6,7 @@ import Profile from './Profile';
 import Dashboard from './Dashboard';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  console.log('PrivateRoute auth: ', auth);
+  // console.log('PrivateRoute auth: ', auth);
   return (
     <Route
       {...rest}
@@ -15,7 +15,11 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
           case null:
             return <div />;
           case false:
-            return <Redirect to="/login" />;
+            return (
+              <Redirect
+                to={{ pathname: '/login', state: { from: props.location } }}
+              />
+            );
           default:
             switch (auth.active) {
               case true:
@@ -24,7 +28,9 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
               case null:
                 return <div />;
               case false:
-                if (!auth.activeFlags.agreedToTerms) {
+                if (!auth.activeFlags.ververifiedEmailOrProvider) {
+                  return <Redirect to="/emailverification" />;
+                } else if (!auth.activeFlags.agreedToTerms) {
                   console.log('props in render: ', props);
                   return (
                     <Redirect
@@ -34,8 +40,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
                       }}
                     />
                   );
-                }
-                return <Redirect to="/" />;
+                } else return <Redirect to="/" />;
               default:
                 console.log('private route good');
                 return <Component {...props} />;
@@ -116,7 +121,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
 //grabbing state.auth and assigning it as a prop, we get state from connect()
 //debugger;
 const mapStateToProps = (state) => {
-  console.log('map state to props: {state} : ', state);
+  // console.log('map state to props: {state} : ', state);
   return {
     auth: state.auth
   };

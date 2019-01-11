@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Button from '@material-ui/core/Button';
+
+const axios = require('axios');
 
 const styles = (theme) => ({
   main: {
@@ -28,6 +31,18 @@ const styles = (theme) => ({
 });
 
 class EmailVerification extends React.Component {
+  state = { message: '' };
+  sendEmailVerification = () => {
+    console.log('resend email');
+    axios
+      .get('/api/profile/resendemailverficiation')
+      .then((res) => {
+        console.log(res);
+        this.setState({ message: 'Account verification email sent!' });
+      })
+      .catch((err) => console.log('error: ', err));
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -38,6 +53,17 @@ class EmailVerification extends React.Component {
           <Typography component="h1" variant="h5">
             Thank you for registering. Please check your email account to
             activate your account.
+          </Typography>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={this.sendEmailVerification}
+            className={classes.submit}>
+            Send Email Again
+          </Button>
+          <Typography component="h1" variant="h5">
+            {this.state.message}{' '}
           </Typography>
         </Paper>
       </div>

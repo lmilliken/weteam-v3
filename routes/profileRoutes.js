@@ -10,6 +10,9 @@ const router = require('express').Router();
 //   });
 // };
 
+const Mailer = require('../services/Mailer');
+const emailVerifyTemplate = require('../services/emailTemplates/emailVerifyTemplate');
+
 router.post('/update', async (req, res) => {
   // console.log('body: ', req.body);
   // console.log('user: ', req.user);
@@ -27,5 +30,24 @@ router.post('/update', async (req, res) => {
   req.user[field] = req.body[field];
   const updatedUser = await req.user.save();
   res.send(updatedUser);
+});
+
+router.get('/resendemailverficiation', async (req, res) => {
+  // console.log('resend email called: ', req.user);
+  const { email, emailVerificationToken } = req.user;
+  const mailer = new Mailer(
+    email,
+    'no-reply@weteam.org',
+    'Activate your WeTeam account',
+    emailVerifyTemplate(emailVerificationToken)
+  );
+  try {
+    const mailRes = await mailer.send();
+    // console.log({ mailRes });
+    res.send('email sent');
+  } catch (err) {
+    console.log(err);
+    res.status(422).send(err);
+  }
 });
 module.exports = router;

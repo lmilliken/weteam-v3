@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
@@ -65,16 +65,17 @@ class Login extends React.Component {
   //   this.state = {};
   // }
 
-  state = { email: '', password: '', error: '' };
+  state = { email: '', password: '', error: '', redirectToReferrer: false };
   signin = (e) => {
     e.preventDefault();
     console.log('sign in clicked', this.state);
     axios
-      .post('/auth/login')
+      .post('/auth/login', this.state)
       .then((res) => {
         console.log({ res });
+        this.setState({ redirectToReferrer: true });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.setState({ error: 'Invalid Credentials' }));
   };
 
   handleEmail = (e) => {
@@ -87,7 +88,17 @@ class Login extends React.Component {
 
   render() {
     const { classes } = this.props;
+    console.log('state: ', this.state);
+    console.log('props in Profile: ', this.props);
 
+    let { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    console.log({ from });
+    let { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
     return (
       <div className={classes.main}>
         {/* <CssBaseline /> */}
@@ -125,6 +136,7 @@ class Login extends React.Component {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <Typography color="error">{this.state.error}</Typography>
             <Button
               type="submit"
               fullWidth

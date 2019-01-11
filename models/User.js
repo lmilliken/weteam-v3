@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
 
 //need to do function() so that you get binding to this
 UserSchema.methods.updateActiveStatus = async function() {
-  // const user = this;
+  const user = this;
   const { agreedToTerms, verifiedEmailOrProvider } = this.activeFlags;
   // console.log('user in User.js: ', user);
   if (agreedToTerms && verifiedEmailOrProvider) {
@@ -39,6 +39,19 @@ UserSchema.methods.updateActiveStatus = async function() {
   await user.save();
   return user;
 };
+
+UserSchema.methods.verifyPassword = async function(password) {
+  const user = this;
+  console.log('password', password);
+  if (user.password === password) {
+    console.log('passwords match');
+    return user;
+  }
+
+  console.log('NO PASSWORD MATCH');
+  return false;
+};
+
 //this creates a model class
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

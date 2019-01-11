@@ -9,10 +9,12 @@ const User = require('./../models/User');
 const config = require('../config/config');
 
 passport.serializeUser((user, done) => {
+  // console.log('user serialized');
   done(null, user.id);
 });
 
 passport.deserializeUser((userID, done) => {
+  // console.log('user DEserialized');
   User.findById(userID).then((user) => {
     done(null, user);
   });
@@ -25,15 +27,19 @@ passport.use(
       usernameField: 'email'
     },
     function(email, password, done) {
-      User.findOne({ email: email }, function(err, user) {
-        console.log('user in password local: ', user);
+      User.findOne({ email: email }, async function(err, user) {
+        // console.log('user in password local: ', user);
+        // const verified = await user.verifyPassword(password);
+        // console.log('verify password: ', verified);
         if (err) {
           return done(err);
         }
         if (!user) {
           return done(null, false);
         }
-        if (!user.verifyPassword(password)) {
+        if (!(await user.verifyPassword(password))) {
+          console.log('passwords do not match');
+          // throw Error('invalid credentials');
           return done(null, false);
         }
         return done(null, user);
@@ -50,7 +56,7 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile.photos);
+      // console.log(profile.photos);
       const existingUser = await User.findOne({
         providedId: profile.id,
         provider: 'Google'
