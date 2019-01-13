@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route, withRouter } from 'react-router-dom';
-import Login from './Login';
-import Profile from './Profile';
-import Dashboard from './Dashboard';
+import { Redirect, Route } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-  // console.log('PrivateRoute auth: ', auth);
+  //console.log('PrivateRoute auth: ', auth);
   return (
     <Route
       {...rest}
@@ -28,7 +25,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
               case null:
                 return <div />;
               case false:
-                if (!auth.activeFlags.ververifiedEmailOrProvider) {
+                if (!auth.activeFlags.verifiedEmailOrProvider) {
                   return <Redirect to="/emailverification" />;
                 } else if (!auth.activeFlags.agreedToTerms) {
                   console.log('props in render: ', props);

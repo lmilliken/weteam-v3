@@ -13,7 +13,8 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha routes/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
   },
   "author": "",
   "license": "ISC",
@@ -28,5 +29,11 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "sendgrid": "^5.2.3"
+  },
+  "devDependencies": {
+    "expect": "^23.6.0",
+    "jest": "^23.6.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
   }
 }

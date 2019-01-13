@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -71,8 +72,9 @@ class Login extends React.Component {
     console.log('sign in clicked', this.state);
     axios
       .post('/auth/login', this.state)
-      .then((res) => {
+      .then(async (res) => {
         console.log({ res });
+        await this.props.fetchUser();
         this.setState({ redirectToReferrer: true });
       })
       .catch((err) => this.setState({ error: 'Invalid Credentials' }));
@@ -88,16 +90,17 @@ class Login extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log('state: ', this.state);
-    console.log('props in Profile: ', this.props);
+    // console.log('state: ', this.state);
+    // console.log('props in Profile: ', this.props);
 
     let { from } = this.props.location.state || { from: { pathname: '/' } };
 
-    console.log({ from });
+    //    console.log({ from });
     let { redirectToReferrer } = this.state;
 
     if (redirectToReferrer === true) {
-      return <Redirect to={from} />;
+      //   console.log('redirecting to: ', from.pathname);
+      return <Redirect to={from.pathname} />;
     }
     return (
       <div className={classes.main}>
@@ -184,4 +187,9 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(
+  connect(
+    null,
+    { fetchUser }
+  )(Login)
+);

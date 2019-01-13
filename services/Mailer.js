@@ -5,7 +5,7 @@ sgMail.setApiKey(config.sendGridKey);
 
 class Mailer {
   constructor(to, from, subject, content) {
-    console.log('content inside Mailer: ', content);
+    // console.log('content inside Mailer: ', content);
 
     this.message = {
       to,

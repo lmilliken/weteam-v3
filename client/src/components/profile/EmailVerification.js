@@ -35,7 +35,7 @@ class EmailVerification extends React.Component {
   sendEmailVerification = () => {
     console.log('resend email');
     axios
-      .get('/api/profile/resendemailverficiation')
+      .get('/auth/resendemailverficiation')
       .then((res) => {
         console.log(res);
         this.setState({ message: 'Account verification email sent!' });

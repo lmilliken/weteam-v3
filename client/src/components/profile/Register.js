@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 // import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+// import Input from '@material-ui/core/Input';
+// import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
@@ -18,7 +18,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { SubmissionError } from 'redux-form';
+//import { SubmissionError } from 'redux-form';
 
 const styles = (theme) => ({
   main: {

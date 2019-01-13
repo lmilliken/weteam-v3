@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -47,36 +47,70 @@ class Header extends React.Component {
 
   renderContent() {
     //console.log('props in Header renderContent(): ', this.props);
+    const open = Boolean(this.state.anchorEl);
     switch (this.props.auth) {
       case null:
         return;
       case false:
         return (
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
+          <Fragment>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+            <Button color="secondary" component={Link} to="/register">
+              Sign Up
+            </Button>
+          </Fragment>
         );
       default:
         return (
           // onClick={this.logout()}
-          <Button
-            color="inherit"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = '/api/logout';
-            }}>
-            Logout
-          </Button>
+          <Fragment>
+            <Button
+              color="inherit"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/api/logout';
+              }}>
+              Logout
+            </Button>
+            <IconButton
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              open={open}
+              onClose={this.handleClose}>
+              <MenuItem
+                component={Link}
+                to="/profile"
+                onClick={this.handleClose}>
+                Profile
+              </MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>
+          </Fragment>
         );
     }
   }
 
   render() {
     const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
-    const open = Boolean(anchorEl);
 
-    // console.log('Header: auth prop: ', this.props.auth);
+    //   console.log('Header: auth prop: ', this.props.auth);
     // console.log('Header rendering...');
     // console.log('Header props: ', this.props);
     // logout = () => {
@@ -99,33 +133,6 @@ class Header extends React.Component {
               </Typography>
             </Button>
             {this.renderContent()}
-            {auth && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit">
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  open={open}
-                  onClose={this.handleClose}>
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                </Menu>
-              </div>
-            )}
           </Toolbar>
         </AppBar>
       </div>

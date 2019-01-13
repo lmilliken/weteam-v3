@@ -2,16 +2,13 @@
 const mongoose = require('mongoose');
 const ExpertArea = mongoose.model('expertareas');
 // const User = mongoose.model('users');
-const User = require('./../models/User');
+
 const router = require('express').Router();
 // module.exports = (app) => {
 //   app.post('/update', async (req, res) => {
 //     res.send('response from profileRouts');
 //   });
 // };
-
-const Mailer = require('../services/Mailer');
-const emailVerifyTemplate = require('../services/emailTemplates/emailVerifyTemplate');
 
 router.post('/update', async (req, res) => {
   // console.log('body: ', req.body);
@@ -32,22 +29,4 @@ router.post('/update', async (req, res) => {
   res.send(updatedUser);
 });
 
-router.get('/resendemailverficiation', async (req, res) => {
-  // console.log('resend email called: ', req.user);
-  const { email, emailVerificationToken } = req.user;
-  const mailer = new Mailer(
-    email,
-    'no-reply@weteam.org',
-    'Activate your WeTeam account',
-    emailVerifyTemplate(emailVerificationToken)
-  );
-  try {
-    const mailRes = await mailer.send();
-    // console.log({ mailRes });
-    res.send('email sent');
-  } catch (err) {
-    console.log(err);
-    res.status(422).send(err);
-  }
-});
 module.exports = router;

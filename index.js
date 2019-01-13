@@ -35,6 +35,9 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/mainRoutes')(app);
 
+const registrationRoutes = require('./routes/registrationRoutes');
+app.use('/api', registrationRoutes);
+
 const profileRoutes = require('./routes/profileRoutes');
 app.use('/api/profile', profileRoutes);
 
@@ -57,3 +60,5 @@ if (process.env.NODE_ENV == 'production') {
 }
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
+
+module.exports = { app };

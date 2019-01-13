@@ -1,6 +1,7 @@
 const config = require('../../config/config');
 
 module.exports = (emailToken) => {
+  //  console.log({ emailToken });
   return `
   <html>
   <body>
