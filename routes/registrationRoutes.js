@@ -8,6 +8,10 @@ const emailVerifyTemplate = require('../services/emailTemplates/emailVerifyTempl
 const router = require('express').Router();
 const User = require('./../models/User');
 
+validateRegister = (req, res, next) => {
+  req.san;
+};
+
 router.post('/register', async (req, res) => {
   // console.log('/registered called: ', req.body);
   const emailToken = crypto.randomBytes(48).toString('hex');
@@ -21,13 +25,15 @@ router.post('/register', async (req, res) => {
     emailVerifyTemplate(emailToken)
   );
   try {
-    const newUser = await new User(req.body).save();
+    const newUser = await new User(req.body);
+    await User.register(newUser, req.body.password); //register is provided by the passportLocalMongoose plugin, see the User model
+
     // console.log({ newUser });
     const mailRes = await mailer.send();
     // console.log({ mailRes });
     res.send('message from server at /register');
   } catch (err) {
-    console.log('something went wrong: ', err);
+    //console.log('something went wrong: ', err);
     res.status(422).send(err);
   }
 });

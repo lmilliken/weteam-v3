@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 //const Schema = mongoose.Schema;
 // same as, this is object destructuring
 // const {Schema} = mongoose
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new mongoose.Schema({
   active: {
@@ -19,7 +21,6 @@ const UserSchema = new mongoose.Schema({
   nameLast: String,
   email: { type: String, unique: true, lowercase: true, trim: true },
   emailVerificationToken: String,
-  password: String,
   providedId: String,
   provider: String,
   profileImage: String,
@@ -27,6 +28,8 @@ const UserSchema = new mongoose.Schema({
   expertAreas: [{ type: mongoose.Schema.ObjectId, ref: 'ExpertArea' }]
 });
 
+UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+UserSchema.plugin(mongodbErrorHandler);
 //need to do function() so that you get binding to this
 UserSchema.methods.updateActiveStatus = async function() {
   const user = this;
