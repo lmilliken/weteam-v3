@@ -60,12 +60,16 @@ router.get('/emailverification/:emailToken', async (req, res) => {
   if (user) {
     //  console.log('user found: ', user);
     await user.updateActiveStatus();
+    req.login(user, (err) => {
+      if (err) {
+        throw Error(err);
+      }
+      return res.redirect('/profile');
+    });
   } else {
     //    console.log('user not found!');
     return res.status(400).send('user not found');
   }
-
-  res.redirect('/profile');
 });
 
 module.exports = router;

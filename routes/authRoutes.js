@@ -28,7 +28,7 @@ module.exports = (app) => {
     '/auth/login',
     passport.authenticate('local', { failureRedirection: '/' }),
     (req, res) => {
-      console.log('/auth/login called: ', req.user);
+      // console.log('/auth/login called: ', req.user);
       res.send('/auth/login called');
     }
   );

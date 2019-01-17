@@ -21,4 +21,16 @@ module.exports = (app) => {
     const areas = await ExpertArea.find();
     res.send(areas);
   });
+
+  app.post('/api/checkdupemail', async (req, res) => {
+    user = await User.find({ email: req.body.email });
+
+    if (user.length) {
+      console.log('user found: ', user);
+      res.send(true);
+    } else {
+      console.log('new user');
+      res.send(false);
+    }
+  });
 };

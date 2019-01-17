@@ -20,8 +20,10 @@ passport.deserializeUser((userID, done) => {
   });
 });
 
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 //don't start on this until you get user set up in
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy()); //local strategy, according to https://github.com/saintedlama/passport-local-mongoose
 // passport.use(
 //   new LocalStrategy(
 //     {

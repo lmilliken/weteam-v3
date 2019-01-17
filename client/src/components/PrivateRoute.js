@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
           default:
             switch (auth.active) {
               case true:
-                console.log('active: true');
+                // console.log('active: true');
                 return <Component {...props} />;
               case null:
                 return <div />;

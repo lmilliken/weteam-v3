@@ -96,17 +96,15 @@ class Register extends React.Component {
 
   register = async (values) => {
     // check to see if user email already exists
-
-    // const duplicateEmailCheck = await axios.post('/api/checkdupemail', {
-    //   email: values.email
-    // });
-
-    // if (duplicateEmailCheck.data === true) {
-    //   throw new SubmissionError({
-    //     email: 'User email already exists.  Please try logging in.',
-    //     _error: 'Login failed!'
-    //   });
-    // }
+    const duplicateEmailCheck = await axios.post('/api/checkdupemail', {
+      email: values.email
+    });
+    if (duplicateEmailCheck.data === true) {
+      throw new SubmissionError({
+        email: 'User email already exists.  Please try logging in.',
+        _error: 'Login failed!'
+      });
+    }
 
     axios
       .post(`/api/register`, {
@@ -117,13 +115,7 @@ class Register extends React.Component {
         this.setState({ completed: true });
       })
       .catch((error) => {
-        if (error.response.status === 400) {
-          throw new SubmissionError({
-            email: 'User email already exists.  Please try logging in.',
-            _error: 'Login failed!'
-          });
-        }
-        console.log('error in catch: ', error.response);
+        console.log('error in /api/register: ', error);
       });
 
     // const { register } = this.props;
