@@ -25,17 +25,47 @@ router.post('/register', async (req, res) => {
     emailVerifyTemplate(emailToken)
   );
   try {
-    const newUser = await new User(req.body);
-    await User.register(newUser, req.body.password); //register is provided by the passportLocalMongoose plugin, see the User model
+    const newUser = new User(req.body);
+    await User.register(newUser, req.body.password)
+      .then()
+      .catch((err) => {
+        console.log('error in registering user: ', err);
+        res.status(400).send();
+      }); //register is provided by the passportLocalMongoose plugin, see the User model
 
     // console.log({ newUser });
     const mailRes = await mailer.send();
     // console.log({ mailRes });
     res.send('message from server at /register');
   } catch (err) {
-    //console.log('something went wrong: ', err);
-    res.status(422).send(err);
+    console.log('something went wrong: ', err);
+    res.status(422).end();
   }
+});
+
+router.get('/emailverification/:emailToken', async (req, res) => {
+  //  console.log('email token: ', req.params.emailToken);
+
+  user = await User.findOneAndUpdate(
+    { emailVerificationToken: req.params.emailToken },
+    {
+      $set: {
+        'activeFlags.verifiedEmailOrProvider': true
+        // emailVerificationToken: ''
+      }
+    },
+    { new: true }
+  );
+
+  if (user) {
+    //  console.log('user found: ', user);
+    await user.updateActiveStatus();
+  } else {
+    //    console.log('user not found!');
+    return res.status(400).send('user not found');
+  }
+
+  res.redirect('/profile');
 });
 
 module.exports = router;

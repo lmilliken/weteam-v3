@@ -20,33 +20,34 @@ passport.deserializeUser((userID, done) => {
   });
 });
 
-//don't start on this until you get user set up in db
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: 'email'
-    },
-    function(email, password, done) {
-      User.findOne({ email: email }, async function(err, user) {
-        // console.log('user in password local: ', user);
-        // const verified = await user.verifyPassword(password);
-        // console.log('verify password: ', verified);
-        if (err) {
-          return done(err);
-        }
-        if (!user) {
-          return done(null, false);
-        }
-        if (!(await user.verifyPassword(password))) {
-          console.log('passwords do not match');
-          // throw Error('invalid credentials');
-          return done(null, false);
-        }
-        return done(null, user);
-      });
-    }
-  )
-);
+//don't start on this until you get user set up in
+passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(
+//   new LocalStrategy(
+//     {
+//       usernameField: 'email'
+//     },
+//     function(email, password, done) {
+//       User.findOne({ email: email }, async function(err, user) {
+//         // console.log('user in password local: ', user);
+//         // const verified = await user.verifyPassword(password);
+//         // console.log('verify password: ', verified);
+//         if (err) {
+//           return done(err);
+//         }
+//         if (!user) {
+//           return done(null, false);
+//         }
+//         if (!(await user.verifyPassword(password))) {
+//           console.log('passwords do not match');
+//           // throw Error('invalid credentials');
+//           return done(null, false);
+//         }
+//         return done(null, user);
+//       });
+//     }
+//   )
+// );
 passport.use(
   new GoogleStrategy(
     {

@@ -43,17 +43,17 @@ UserSchema.methods.updateActiveStatus = async function() {
   return user;
 };
 
-UserSchema.methods.verifyPassword = async function(password) {
-  const user = this;
-  console.log('password', password);
-  if (user.password === password) {
-    console.log('passwords match');
-    return user;
-  }
+// UserSchema.methods.verifyPassword = async function(password) {
+//   const user = this;
+//   console.log('password', password);
+//   if (user.password === password) {
+//     console.log('passwords match');
+//     return user;
+//   }
 
-  console.log('NO PASSWORD MATCH');
-  return false;
-};
+//   console.log('NO PASSWORD MATCH');
+//   return false;
+// };
 
 //this creates a model class
 const User = mongoose.model('User', UserSchema);

@@ -18,7 +18,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-//import { SubmissionError } from 'redux-form';
+import { SubmissionError } from 'redux-form';
 
 const styles = (theme) => ({
   main: {
@@ -113,9 +113,18 @@ class Register extends React.Component {
         ...values
       })
       .then((response) => {
+        console.log({ response });
         this.setState({ completed: true });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (error.response.status === 400) {
+          throw new SubmissionError({
+            email: 'User email already exists.  Please try logging in.',
+            _error: 'Login failed!'
+          });
+        }
+        console.log('error in catch: ', error.response);
+      });
 
     // const { register } = this.props;
     // register(values);

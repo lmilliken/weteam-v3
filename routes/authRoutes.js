@@ -5,32 +5,7 @@ const emailVerifyTemplate = require('../services/emailTemplates/emailVerifyTempl
 const User = require('./../models/User');
 
 module.exports = (app) => {
-  app.get('/api/emailverification/:emailToken', async (req, res) => {
-    console.log('email token: ', req.params.emailToken);
-
-    user = await User.findOneAndUpdate(
-      { emailVerificationToken: req.params.emailToken },
-      {
-        $set: {
-          'activeFlags.verifiedEmailOrProvider': true,
-          emailVerificationToken: ''
-        }
-      },
-      { new: true }
-    );
-
-    if (user) {
-      console.log('user found: ', user);
-      await user.updateActiveStatus();
-    } else {
-      console.log('user not found');
-      res.send('user not found');
-    }
-
-    res.redirect('/profile');
-  });
-
-  app.get('/auth/resendemailverficiation', async (req, res) => {
+  app.get('/auth/resendemailverfication', async (req, res) => {
     console.log('resend email called: ', req.user);
     const { email, emailVerificationToken } = req.user;
     const mailer = new Mailer(
