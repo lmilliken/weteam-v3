@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -60,40 +61,49 @@ const styles = (theme) => ({
 // }
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.signin = this.signin.bind(this);
-    this.test = this.test.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  // }
 
+  state = { email: '', password: '', error: '', redirectToReferrer: false };
   signin = (e) => {
     e.preventDefault();
-    console.log('sign in clicked');
+    console.log('sign in clicked', this.state);
     axios
-      .get(`http://localhost:5000/auth/google`)
-      .then((res) => {
+      .post('/auth/login', this.state)
+      .then(async (res) => {
         console.log({ res });
+        await this.props.fetchUser();
+        this.setState({ redirectToReferrer: true });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.setState({ error: 'Invalid Credentials' }));
   };
 
-  test = (e) => {
-    e.preventDefault();
-    console.log('test clicked');
-    axios
-      .get(`/test`)
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch((err) => console.log(err));
+  handleEmail = (e) => {
+    this.setState({ email: e.target.value });
+  };
+
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value });
   };
 
   render() {
     const { classes } = this.props;
+    // console.log('state: ', this.state);
+    // console.log('props in Profile: ', this.props);
 
+    let { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    //    console.log({ from });
+    let { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer === true) {
+      //   console.log('redirecting to: ', from.pathname);
+      return <Redirect to={from.pathname} />;
+    }
     return (
-      <something className={classes.main}>
+      <div className={classes.main}>
         {/* <CssBaseline /> */}
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -102,10 +112,17 @@ class Login extends React.Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.signin}>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={this.state.email}
+                onChange={this.handleEmail}
+              />
             </FormControl>
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
@@ -114,12 +131,15 @@ class Login extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handlePassword}
               />
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <Typography color="error">{this.state.error}</Typography>
             <Button
               type="submit"
               fullWidth
@@ -129,19 +149,32 @@ class Login extends React.Component {
               Sign in
             </Button>
           </form>
+          <Typography>Or signin with</Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = '/auth/google';
+            }}>
+            Google
+          </Button>
+
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = '/auth/google';
+            }}>
+            Facebook
+          </Button>
         </Paper>
 
-        <Button
-          fullWidth
-          variant="contained"
-          color="secondary"
-          onClick={(e) => {
-            e.preventDefault();
-            window.location.href = '/auth/google';
-          }}>
-          Sign in with Google
-        </Button>
-      </something>
+        <Typography component={Link} to="/register">
+          Don't have a login? Signup.
+        </Typography>
+      </div>
     );
   }
 }
@@ -154,4 +187,9 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(
+  connect(
+    null,
+    { fetchUser }
+  )(Login)
+);

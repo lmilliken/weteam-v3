@@ -1,19 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { updateProfile } from '../../actions';
 import { reduxForm, Field } from 'redux-form';
+
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import Button from '@material-ui/core/Button';
-import { TextField } from 'redux-form-material-ui';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { connect } from 'react-redux';
 const styles = (theme) => ({
   root: {
     display: 'flex'
@@ -23,158 +22,74 @@ const styles = (theme) => ({
   }
 });
 
-// const renderCheckbox = ({ input, label }) => (
-//   <FormControlLabel
-//     control={
-//       <Checkbox
-//         name="expertAreas2"
-//         value={label}
-//         onChange={(event) => {
-//           if (event.target.checked) {
-//             console.log('checked');
-//           } else {
-//             console.log('unchecked');
-//           }
-//         }}
-//       />
-//     }
-//     label={label}
-//   />
-// );
-//props.input = {input}, we are getting the props from redux form <Field>
 const renderCheckboxes = ({ input, areas }) => {
-  console.log('checkbox input: ', input);
+  // console.log('checkbox input: ', input);
+  // console.log('checkbox areas: ', areas);
+  // console.log('checkbox auth: ', auth);
+  // input.value = auth.expertAreas;
+
   return (
     <FormGroup>
-      {areas.map((area, index) => (
-        // <input
-        //   type="checkbox"
-        //   name={area}
-        //   value={area}
-        //   onChange={(event) => {
-        //     const newValue = [...input.value];
-        //     if (event.target.checked) {
-        //       newValue.push(area);
-        //     } else {
-        //       newValue.splice(newValue.indexOf(area), 1);
-        //     }
-
-        //     return input.onChange(newValue);
-        //   }}
-        // />
+      {areas.map((area) => (
         <FormControlLabel
+          key={area._id}
           control={
             <Checkbox
               // {...input}
-              key={area}
-              label={area}
-              name={area}
-              value={area}
+              // key={area}
+              label={area.name}
+              name={area.name}
+              value={area._id}
+              checked={input.value.indexOf(area._id) !== -1}
               onChange={(event) => {
                 const newValue = [...input.value];
                 if (event.target.checked) {
-                  newValue.push(area);
+                  newValue.push(area._id);
                 } else {
-                  newValue.splice(newValue.indexOf(area), 1);
+                  newValue.splice(newValue.indexOf(area._id), 1);
                 }
                 input.onBlur(newValue);
                 return input.onChange(newValue);
               }}
             />
           }
-          label={area}
+          label={area.name}
         />
       ))}
     </FormGroup>
   );
 };
 
-const renderTextField = ({ input }) => {
-  console.log('test input values: ', input);
-  return <TextField id="standard-name" label="Name" margin="normal" />;
-};
-
-const CheckboxGroup = ({ label, required, name, options, input, meta }) => (
-  <FormGroup controlId={name}>
-    <FormControlLabel>{label}</FormControlLabel>
-    {options.map((option, index) => (
-      <div className="checkbox" key={index}>
-        <label>
-          <input
-            type="checkbox"
-            name={`${name}[${index}]`}
-            value={option.name}
-            checked={input.value.indexOf(option.name) !== -1}
-            onChange={(event) => {
-              const newValue = [input.value];
-              if (event.target.checked) {
-                newValue.push(option.name);
-              } else {
-                newValue.splice(newValue.indexOf(option.name), 1);
-              }
-
-              return input.onChange(newValue);
-            }}
-          />
-          {option.name}
-        </label>
-      </div>
-    ))}
-  </FormGroup>
-);
-
 class EditExpertAreasForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      gilad: true,
-      jason: false,
-      antoine: false
-    };
-
-    this.handleClose = this.handleClose.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
-  handleSave = (name) => (event) => {
-    this.setState({ [name]: event.target.checked });
-  };
-
-  handleClose() {
+  handleSave(values) {
+    // console.log({ values });
+    // e.preventDefault();
+    // // console.log('props: ', this.props);
+    const { updateProfile } = this.props; //this redux action was included in props when we wired it up w/ connect()
+    // const expertAreas = this.props.editExpertAreas;
+    updateProfile(values);
     this.props.close();
   }
 
   render() {
     // console.log('props: ', this.props);
-    const { classes, auth, expertAreas } = this.props;
-
-    // const list = expertAreas.map((area) => (
-    //   <Field key={area} component={renderCheckbox} label={area} />
-
-    // <FormControlLabel
-    //   key={list}
-    //   control={
-    //     <Checkbox
-    //       key={list}
-    //       onChange={this.handleChange('gilad')}
-    //       value={area}
-    //     />
-    //   }
-    //   label={area}
-    // />
-    // ));
+    const { classes, expertAreas, handleSubmit } = this.props;
 
     return (
       <div className={classes.root}>
         <form
-          onSubmit={this.props.handleSubmit((values) =>
-            console.log('values: ', values)
-          )}>
+          onSubmit={handleSubmit((values) => {
+            this.handleSave(values);
+          })}>
           <FormControl component="fieldset" className={classes.formControl}>
-            <IconButton onClick={this.handleClose}>
+            <IconButton onClick={this.props.close}>
               <Icon>close</Icon>
             </IconButton>
-            <Field name="testtextfield" component={renderTextField} />
 
             <Field
               name="expertAreas"
@@ -188,7 +103,7 @@ class EditExpertAreasForm extends React.Component {
             <Button
               variant="outlined"
               color="secondary"
-              onClick={this.handleClose}>
+              onClick={this.props.close}>
               Cancel
             </Button>
           </FormControl>
@@ -203,15 +118,20 @@ EditExpertAreasForm.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('form info: ', state.form.editExpertAreas);
-  return { auth: state.auth, expertAreas: state.expertAreas };
+  // console.log('form info: ', state.auth);
+  return {
+    initialValues: { expertAreas: state.auth.expertAreas },
+    expertAreas: state.expertAreas
+  };
 };
 
 export default withStyles(styles)(
-  connect(mapStateToProps)(
+  connect(
+    mapStateToProps,
+    { updateProfile }
+  )(
     reduxForm({
-      form: 'editExpertAreas',
-      destroyOnUnmount: false
+      form: 'editProfileForm'
     })(EditExpertAreasForm)
   )
 );
