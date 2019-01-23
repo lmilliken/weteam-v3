@@ -12,7 +12,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import Typography from '@material-ui/core/Typography';
 const styles = (theme) => ({
   root: {
     display: 'flex'
@@ -87,10 +87,7 @@ class EditExpertAreasForm extends React.Component {
             this.handleSave(values);
           })}>
           <FormControl component="fieldset" className={classes.formControl}>
-            <IconButton onClick={this.props.close}>
-              <Icon>close</Icon>
-            </IconButton>
-
+            <Typography>Expert Areas</Typography>
             <Field
               name="expertAreas"
               areas={expertAreas}

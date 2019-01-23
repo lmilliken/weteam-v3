@@ -4,30 +4,39 @@ import { reduxForm, Field } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-
+import { FormControl, Button } from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from 'react-redux';
 import { updateProfile } from '../../actions';
-import { TextField } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 
 const styles = (theme) => ({
-  root: {
-    display: 'flex'
-  },
+  root: { padding: '20px' },
   formControl: {
-    margin: theme.spacing.unit * 3
+    margin: theme.spacing.unit * 2
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    // display: 'flex',
+    // flexWrap: 'wrap'
+  },
+  textbox: {
+    paddingBottom: '20px'
   }
 });
 
 const renderTextInput = ({ input }) => {
   //  console.log('checkbox input: ', input);
 
-  return <TextField rows="4" fullWidth {...input} />;
+  return (
+    <TextField
+      rows="4"
+      id="outlined-multiline-flexible"
+      variant="outlined"
+      multiline
+      fullWidth
+      {...input}
+    />
+  );
 };
 
 class EditAboutForm extends React.Component {
@@ -56,11 +65,8 @@ class EditAboutForm extends React.Component {
             this.handleSave(values)
           )}
           className={classes.container}>
+          <Typography variant="h6">About Me</Typography>
           <FormControl component="fieldset" className={classes.formControl}>
-            <IconButton onClick={this.props.close}>
-              <Icon>close</Icon>
-            </IconButton>
-
             <Field name="about" component={renderTextInput} />
             <Button variant="contained" color="primary" type="submit">
               Save

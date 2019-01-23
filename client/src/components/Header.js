@@ -2,13 +2,14 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+//import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -57,7 +58,11 @@ class Header extends React.Component {
             <Button color="inherit" component={Link} to="/login">
               Login
             </Button>
-            <Button color="secondary" component={Link} to="/register">
+            <Button
+              variant="contained"
+              color="secondary"
+              component={Link}
+              to="/register">
               Sign Up
             </Button>
           </Fragment>
@@ -66,6 +71,14 @@ class Header extends React.Component {
         return (
           // onClick={this.logout()}
           <Fragment>
+            <Button
+              color="inherit"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/dashboard';
+              }}>
+              Dashboard
+            </Button>
             <Button
               color="inherit"
               onClick={(e) => {
@@ -127,15 +140,48 @@ class Header extends React.Component {
               aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Button color="inherit" component={Link} to="/">
-              <Typography variant="h6" color="inherit" noWrap>
+
+            <Typography
+              className={classes.grow}
+              variant="h6"
+              color="inherit"
+              noWrap>
+              <Button
+                className={classes.menuButton}
+                color="inherit"
+                size="large">
                 We-Team
-              </Typography>
-            </Button>
+              </Button>
+            </Typography>
+            {/* <Button className={classes.menuButton} color="inherit" size="large">
+              <Typography
+                className={classes.grow}
+                variant="h6"
+                color="inherit"
+                noWrap>
+                We-Team
+              </Typography>{' '}
+            </Button> */}
             {this.renderContent()}
           </Toolbar>
         </AppBar>
       </div>
+      // <div className={classes.root}>
+      //   <AppBar position="static">
+      //     <Toolbar>
+      //       <IconButton
+      //         className={classes.menuButton}
+      //         color="inherit"
+      //         aria-label="Menu">
+      //         <MenuIcon />
+      //       </IconButton>
+      //       <Typography variant="h6" color="inherit" className={classes.grow}>
+      //         News
+      //       </Typography>
+      //       <Button color="inherit">Login</Button>
+      //     </Toolbar>
+      //   </AppBar>
+      // </div>
     );
   }
 }

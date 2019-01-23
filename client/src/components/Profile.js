@@ -17,7 +17,7 @@ import EditAboutForm from './profile/EditAboutForm';
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
     margin: '2%'
   },
   paper: {
@@ -31,14 +31,11 @@ const styles = (theme) => ({
     height: 60
   },
   modal: {
-    // position: 'absolute',
-    width: 'auto',
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    margin: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto'
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%) !important',
+    backgroundColor: 'white'
   }
 });
 
@@ -132,6 +129,12 @@ class Profile extends React.Component {
                 open={this.state.editExpertise}
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
+                  <IconButton
+                    style={{ float: 'right' }}
+                    onClick={() => this.setState({ editExpertise: false })}>
+                    <Icon>close</Icon>
+                  </IconButton>
+
                   <EditExpertAreasForm
                     close={this.handleClose}
                     save={this.handleSave}
@@ -145,6 +148,11 @@ class Profile extends React.Component {
                 open={this.state.editAbout}
                 onClose={this.handleClose}>
                 <div className={classes.modal}>
+                  <IconButton
+                    style={{ float: 'right' }}
+                    onClick={() => this.setState({ editAbout: false })}>
+                    <Icon>close</Icon>
+                  </IconButton>
                   <EditAboutForm
                     close={this.handleClose}
                     save={this.handleSave}

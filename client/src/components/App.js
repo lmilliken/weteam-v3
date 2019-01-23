@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { withStyles } from '@material-ui/core/styles';
 
 import PrivateRoute from './PrivateRoute';
 import Header from './Header';
@@ -14,9 +15,12 @@ import AgreeToTerms from './profile/AgreeToTerms';
 import EmailVerification from './profile/EmailVerification';
 // import Test from './Test';
 
-const SurveyNew = () => {
-  return <h2>SurveyNew</h2>;
-};
+const styles = (theme) => ({
+  root: {
+    display: 'grid'
+    // color: 'pink'
+  }
+});
 
 class App extends Component {
   componentDidMount() {
@@ -25,8 +29,9 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="container">
+      <div className={classes.root}>
         <BrowserRouter>
           <div>
             <Header />
@@ -34,6 +39,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/register" component={Register} />
+
             <Route
               exact
               path="/emailverification"
@@ -41,7 +47,6 @@ class App extends Component {
             />
             <Route exact path="/terms" component={AgreeToTerms} />
             <PrivateRoute exact path="/profile" component={Profile} />
-            <Route path="/surveys/new" component={SurveyNew} />
           </div>
         </BrowserRouter>
       </div>
@@ -55,7 +60,9 @@ class App extends Component {
 
 // export default withStyles(styles)(connect(mapStateToProps)
 
-export default connect(
-  null,
-  actions
-)(App); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
+export default withStyles(styles)(
+  connect(
+    null,
+    actions
+  )(App)
+); //this makes all of the actions assigned to App as props so you can call them with this.props. fetchUser()
