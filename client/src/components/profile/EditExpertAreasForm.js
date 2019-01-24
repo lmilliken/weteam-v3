@@ -15,10 +15,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 const styles = (theme) => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    padding: '20px'
   },
   formControl: {
     margin: theme.spacing.unit * 3
+  },
+  button: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -30,32 +34,34 @@ const renderCheckboxes = ({ input, areas }) => {
 
   return (
     <FormGroup>
-      {areas.map((area) => (
-        <FormControlLabel
-          key={area._id}
-          control={
-            <Checkbox
-              // {...input}
-              // key={area}
-              label={area.name}
-              name={area.name}
-              value={area._id}
-              checked={input.value.indexOf(area._id) !== -1}
-              onChange={(event) => {
-                const newValue = [...input.value];
-                if (event.target.checked) {
-                  newValue.push(area._id);
-                } else {
-                  newValue.splice(newValue.indexOf(area._id), 1);
-                }
-                input.onBlur(newValue);
-                return input.onChange(newValue);
-              }}
-            />
-          }
-          label={area.name}
-        />
-      ))}
+      <FormControl>
+        {areas.map((area) => (
+          <FormControlLabel
+            key={area._id}
+            control={
+              <Checkbox
+                // {...input}
+                // key={area}
+                label={area.name}
+                name={area.name}
+                value={area._id}
+                checked={input.value.indexOf(area._id) !== -1}
+                onChange={(event) => {
+                  const newValue = [...input.value];
+                  if (event.target.checked) {
+                    newValue.push(area._id);
+                  } else {
+                    newValue.splice(newValue.indexOf(area._id), 1);
+                  }
+                  input.onBlur(newValue);
+                  return input.onChange(newValue);
+                }}
+              />
+            }
+            label={area.name}
+          />
+        ))}
+      </FormControl>
     </FormGroup>
   );
 };
@@ -86,24 +92,27 @@ class EditExpertAreasForm extends React.Component {
           onSubmit={handleSubmit((values) => {
             this.handleSave(values);
           })}>
-          <FormControl component="fieldset" className={classes.formControl}>
-            <Typography>Expert Areas</Typography>
-            <Field
-              name="expertAreas"
-              areas={expertAreas}
-              component={renderCheckboxes}
-            />
+          <Typography variant="h6">Expert Areas</Typography>
+          <Field
+            name="expertAreas"
+            areas={expertAreas}
+            component={renderCheckboxes}
+          />
 
-            <Button variant="contained" color="primary" type="submit">
-              Save
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={this.props.close}>
-              Cancel
-            </Button>
-          </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            className={classes.button}>
+            Save
+          </Button>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            color="primary"
+            onClick={this.props.close}>
+            Cancel
+          </Button>
         </form>
       </div>
     );

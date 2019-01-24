@@ -42,7 +42,7 @@ const renderTextInput = ({ input }) => {
   );
 };
 
-class EditAboutForm extends React.Component {
+class ModalCreateRequest extends React.Component {
   constructor(props) {
     super(props);
 
@@ -90,24 +90,24 @@ class EditAboutForm extends React.Component {
   }
 }
 
-EditAboutForm.propTypes = {
+ModalCreateRequest.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => {
-  //console.log('map state to props: {state} : ', state);
-  return {
-    auth: state.auth,
-    initialValues: { about: state.auth.about }
-  };
-};
+// const mapStateToProps = (state) => {
+//   //console.log('map state to props: {state} : ', state);
+//   return {
+//     auth: state.auth,
+//     initialValues: { about: state.auth.about }
+//   };
+// };
 export default withStyles(styles)(
   connect(
-    mapStateToProps,
+    null,
     { updateProfile }
   )(
     reduxForm({
       form: 'editProfileForm'
-    })(EditAboutForm)
+    })(ModalCreateRequest)
   )
 );

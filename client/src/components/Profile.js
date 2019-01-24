@@ -18,6 +18,7 @@ import EditAboutForm from './profile/EditAboutForm';
 const styles = (theme) => ({
   root: {
     // flexGrow: 1,
+    // display: 'flex',
     margin: '2%'
   },
   paper: {

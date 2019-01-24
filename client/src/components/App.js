@@ -13,12 +13,13 @@ import Profile from './Profile';
 import Register from './profile/Register';
 import AgreeToTerms from './profile/AgreeToTerms';
 import EmailVerification from './profile/EmailVerification';
-// import Test from './Test';
+import Test from './Test';
+import Request from './Request';
 
 const styles = (theme) => ({
   root: {
-    display: 'grid'
-    // color: 'pink'
+    // display: 'flex',
+    // margin: '50px'
   }
 });
 
@@ -29,9 +30,9 @@ class App extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    //   const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div className="container">
         <BrowserRouter>
           <div>
             <Header />
@@ -39,6 +40,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/test" component={Test} />
 
             <Route
               exact
@@ -47,6 +49,7 @@ class App extends Component {
             />
             <Route exact path="/terms" component={AgreeToTerms} />
             <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/request/new" component={Request} />
           </div>
         </BrowserRouter>
       </div>
