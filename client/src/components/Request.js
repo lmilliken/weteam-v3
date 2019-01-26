@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 import { fetchUser } from '../actions';
+
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import { Button, TextField, Select, MenuItem } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -14,6 +16,8 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+import DropDownSelect from './shared/DropDownSelect';
 
 const axios = require('axios');
 
@@ -88,10 +92,56 @@ class Request extends React.Component {
     this.setState({ password: e.target.value });
   };
 
+  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
+    // console.log('props here: ', props);
+    // { input, label, meta: { touched, error }, ...custom }
+    return (
+      <TextField
+        id="standard-full-width"
+        label="Title"
+        // hintText={label}
+        // floatingLabelText={label}
+        // errorText={touched && error}
+        {...input}
+        {...custom}
+      />
+    );
+  };
+
+  renderSelectField = ({
+    input,
+    label,
+    meta: { touched, error },
+    children,
+    ...custom
+  }) => (
+    <Select
+      errorText={touched && error}
+      {...input}
+      onChange={(event, index, value) => input.onChange(value)}
+      children={children}
+      {...custom}
+    />
+  );
+
+  getExpertAreaMenuItems = () => {
+    console.log('props in getExpertAreaMenuItems', this.props);
+    const { expertAreas } = this.props;
+    console.log('I am called');
+    if (expertAreas) {
+      return expertAreas.map((area) => (
+        <MenuItem value={area.id}>{area.name}</MenuItem>
+      ));
+    } else {
+      return null;
+    }
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, expertAreas } = this.props;
+    console.log({ expertAreas });
     // console.log('state: ', this.state);
-    // console.log('props in Profile: ', this.props);
+    console.log('props in Request: ', this.props);
 
     let { from } = this.props.location.state || { from: { pathname: '/' } };
 
@@ -110,20 +160,26 @@ class Request extends React.Component {
             <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Request
           </Typography>
           <form className={classes.form} onSubmit={this.signin}>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input
-                id="email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={this.state.email}
-                onChange={this.handleEmail}
+            <Field
+              name="title"
+              component={this.renderTextField}
+              label="Title"
+              fullWidth //gets passed as part of {...custom} props
+            />
+            {expertAreas && (
+              <Field
+                name="request-type"
+                // component="select"
+                label="Type of Request"
+                component={DropDownSelect}
+                className="form-control"
+                items={expertAreas}
               />
-            </FormControl>
+            )}
+
             <FormControl margin="normal" fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
               <Input
@@ -187,9 +243,14 @@ Request.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+const mapStateToProps = (state) => {
+  console.log('state: ', state);
+  return { expertAreas: state.expertAreas };
+};
+
 export default withStyles(styles)(
   connect(
-    null,
-    { fetchUser }
-  )(Request)
+    mapStateToProps,
+    null
+  )(reduxForm({ form: 'request' })(Request))
 );
