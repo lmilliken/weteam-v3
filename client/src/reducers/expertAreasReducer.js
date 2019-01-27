@@ -1,7 +1,7 @@
 import { FETCH_EXPERT_AREAS } from '../actions/types';
 
 export default function(state = null, action) {
-  // console.log(action);
+  // console.log('experts reducer');
   switch (action.type) {
     case FETCH_EXPERT_AREAS:
       return action.payload || false;

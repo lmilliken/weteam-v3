@@ -92,18 +92,18 @@ class Request extends React.Component {
     this.setState({ password: e.target.value });
   };
 
-  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
-    // console.log('props here: ', props);
+  renderTextField = (props) => {
+    console.log('props here: ', props);
     // { input, label, meta: { touched, error }, ...custom }
     return (
       <TextField
         id="standard-full-width"
-        label="Title"
-        // hintText={label}
-        // floatingLabelText={label}
-        // errorText={touched && error}
-        {...input}
-        {...custom}
+        // label={label}
+        // // hintText={label}
+        // // floatingLabelText={label}
+        // // errorText={touched && error}
+        // {...input}
+        // {...custom}
       />
     );
   };
@@ -138,10 +138,10 @@ class Request extends React.Component {
   };
 
   render() {
-    const { classes, expertAreas } = this.props;
-    console.log({ expertAreas });
+    const { classes, expertAreas, requestStatuses } = this.props;
+    // console.log({ expertAreas });
     // console.log('state: ', this.state);
-    console.log('props in Request: ', this.props);
+    //console.log('props in Request: ', this.props);
 
     let { from } = this.props.location.state || { from: { pathname: '/' } };
 
@@ -180,22 +180,25 @@ class Request extends React.Component {
               />
             )}
 
-            <FormControl margin="normal" fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={this.state.password}
-                onChange={this.handlePassword}
+            {requestStatuses && (
+              <Field
+                name="request-status"
+                // component="select"
+                label="Status"
+                component={DropDownSelect}
+                className="form-control"
+                items={requestStatuses}
               />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+            )}
+            <Field
+              name="description"
+              // component="select"
+              label="Description"
+              component={this.renderTextField}
+              className="form-control"
+              fullWidth //gets passed as part of {...custom} props
+              // rows="4"
             />
-            <Typography color="error">{this.state.error}</Typography>
             <Button
               type="submit"
               fullWidth
@@ -244,8 +247,11 @@ Request.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
-  return { expertAreas: state.expertAreas };
+  //console.log('state: ', state);
+  return {
+    expertAreas: state.expertAreas,
+    requestStatuses: state.shared.requestStatuses
+  };
 };
 
 export default withStyles(styles)(

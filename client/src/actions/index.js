@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { FETCH_USER, FETCH_EXPERT_AREAS } from './types';
+import {
+  FETCH_USER,
+  FETCH_EXPERT_AREAS,
+  FETCH_REQUEST_STATUSES
+} from './types';
 
 export * from './profileActions';
 
@@ -18,4 +22,11 @@ export const fetchUser = () => async (dispatch) => {
 export const fetchExpertAreas = () => async (dispatch) => {
   const response = await axios.get('/api/expertareas');
   dispatch({ type: FETCH_EXPERT_AREAS, payload: response.data });
+};
+
+export const fetchRequestStatuses = () => async (dispatch) => {
+  const response = await axios.get('/api/requeststatuses');
+  console.log('request statuses action', response.data);
+
+  dispatch({ type: FETCH_REQUEST_STATUSES, payload: response.data });
 };

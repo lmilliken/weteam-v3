@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 
 const ExpertArea = mongoose.model('expertareas');
+const RequestStatus = mongoose.model('requeststatuses');
 //const User = mongoose.model('users');
 const User = require('./../models/User');
 
@@ -20,6 +21,13 @@ module.exports = (app) => {
   app.get('/api/expertareas', async (req, res) => {
     const areas = await ExpertArea.find();
     res.send(areas);
+  });
+
+  app.get('/api/requeststatuses', async (req, res) => {
+    //    console.log('statuses called');
+    const statuses = await RequestStatus.find();
+    // console.log({ statuses });
+    res.send(statuses);
   });
 
   app.post('/api/checkdupemail', async (req, res) => {

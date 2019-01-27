@@ -9,6 +9,7 @@ const config = require('./config/config');
 //this just executes the file, no export needed
 require('./models/User');
 require('./models/ExpertArea');
+require('./models/RequestStatus');
 require('./services/passport-setup');
 
 mongoose.connect(

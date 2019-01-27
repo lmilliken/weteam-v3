@@ -25,8 +25,10 @@ const styles = (theme) => ({
 
 class App extends Component {
   componentDidMount() {
+    //  console.log('App props: ', this.props);
     this.props.fetchUser();
     this.props.fetchExpertAreas();
+    this.props.fetchRequestStatuses();
   }
 
   render() {
