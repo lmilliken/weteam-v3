@@ -10,6 +10,7 @@ const config = require('./config/config');
 require('./models/User');
 require('./models/ExpertArea');
 require('./models/RequestStatus');
+require('./models/Request');
 require('./services/passport-setup');
 
 mongoose.connect(
@@ -33,14 +34,19 @@ app.use(passport.session());
 
 //need to put authroutes after passport.initialize() so passport is happy
 
+//uses module.exports = (app) => {
 require('./routes/authRoutes')(app);
 require('./routes/mainRoutes')(app);
 
+//uses router
 const registrationRoutes = require('./routes/registrationRoutes');
 app.use('/api', registrationRoutes);
 
 const profileRoutes = require('./routes/profileRoutes');
 app.use('/api/profile', profileRoutes);
+
+const protectedRoutes = require('./routes/protectedRoutes');
+app.use('/api/protected', protectedRoutes);
 
 // app.post('/api/profile/update', (req, res) => {
 //   res.send('a response from profileRoutes');

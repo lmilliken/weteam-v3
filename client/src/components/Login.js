@@ -14,7 +14,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import CssBaseline from '@material-ui/core/CssBaseline';
 const axios = require('axios');
 
 const styles = (theme) => ({
@@ -104,7 +104,7 @@ class Login extends React.Component {
     }
     return (
       <div className={classes.main}>
-        {/* <CssBaseline /> */}
+        <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />

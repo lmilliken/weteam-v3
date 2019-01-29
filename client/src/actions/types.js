@@ -5,3 +5,4 @@ export const REGISTER_USER = 'register_user';
 export const REGISTER_USER_EMAIL_TAKEN = 'register_user_email_taken';
 export const REGISTER_USER_FAILED = 'register_user_email_failed';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
+export const CREATE_REQUEST = 'create_request';

@@ -6,6 +6,7 @@ import {
 } from './types';
 
 export * from './profileActions';
+export * from './protectedActions';
 
 export const agreeToTerms = () => async (dispatch) => {
   // console.log('update action called', values);
